@@ -109,7 +109,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 
 	//---------------------------------------------------------------------
-	// Constructors
+	// Constructors		构造函数
 	//---------------------------------------------------------------------
 
 	/**
@@ -178,10 +178,11 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 
 	//---------------------------------------------------------------------
-	// Implementation methods
+	// Implementation methods	实现方法
 	//---------------------------------------------------------------------
 
 	/**
+	 * 从 input stream 加载定义
 	 * Load definitions from this input stream and close it
 	 */
 	private void loadBeanDefinitions(InputStream is) throws BeansException {
@@ -220,13 +221,14 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	} // loadDefinitions (InputStream)
 
 	/**
+	 * 从给出的 DOM 文档中加载 bean 定义
 	 * Load bean definitions from the given DOM document.
 	 * All calls go through this.
 	 */
 	private void loadBeanDefinitions(Document doc) throws BeansException {
 		Element root = doc.getDocumentElement();
 		logger.debug("Loading bean definitions");
-		NodeList nl = root.getElementsByTagName(BEAN_ELEMENT);
+		NodeList nl = root.getElementsByTagName(BEAN_ELEMENT);		//获取 bean 标签
 		logger.debug("Found " + nl.getLength() + " <" + BEAN_ELEMENT + "> elements defining beans");
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
@@ -238,6 +240,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	}
 
 	/**
+	 * 解析bean元素定义
 	 * Parse an element definition: wW know this is a BEAN element.
 	 */
 	private void loadBeanDefinition(Element el) throws BeansException {
@@ -249,7 +252,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 		PropertyValues pvs = getPropertyValueSubElements(el);
 		beanDefinition = parseBeanDefinition(el, id, pvs);
-		registerBeanDefinition(id, beanDefinition);
+		registerBeanDefinition(id, beanDefinition);		//注册bean
 
 		String name = el.getAttribute(NAME_ATTRIBUTE);
 		if (name != null && !"".equals(name)) {
@@ -260,6 +263,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	}
 
 	/**
+     * 解析一个标准的bean定义
 	 * Parse a standard bean definition.
 	 */
 	private AbstractBeanDefinition parseBeanDefinition(Element el, String beanName, PropertyValues pvs) {
